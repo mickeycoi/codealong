@@ -4,13 +4,14 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
-
 import Logo from "../components/Logo";
 import useAuth from "../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 function MainHeader() {
-  const { user } = useAuth();
-
+  const auth = useAuth();
+  let navigate = useNavigate();
   return (
     <Box>
       <AppBar position="static">
@@ -28,8 +29,19 @@ function MainHeader() {
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
           <Typography variant="h6" color="inherit" component="div">
-            Welcome {user?.username}!
+            Welcome {auth.user?.username}
           </Typography>
+          <IconButton
+            size="large"
+            aria-label="show 4 new mails"
+            color="inherit"
+          >
+            <LogoutIcon
+              onClick={() => {
+                auth.logout(() => navigate("/"));
+              }}
+            />
+          </IconButton>
         </Toolbar>
       </AppBar>
     </Box>
